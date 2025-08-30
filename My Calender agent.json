@@ -1,0 +1,347 @@
+{
+  "name": "My Calender agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=You are a helpful calender assistant\nBased on user query you made the events in the calender\nFor this you use the tool which is provided to you\n\nYou have to provide start date and end date\nThe current date and time and time zone is given below\n{\n    \"dateTime\":{{ $now }} ,\n    \"timeZone\": \"Asia/Karachi\"\n}\n\nAlso you provide the summary of the event and other details which tool might need\n\nWhen asked you to retrive the all events use the \"get_events\" tool and when user ask to update any event then use the \"update_event\" tool along with the summary of the event and other details which tool might need\n and also you can use \"delete event\" tool for deleting any event\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        -112
+      ],
+      "id": "b49665f2-0a5b-42cd-a57b-fb50f00fe7e2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "chhuzaifa9088@gmail.com",
+          "mode": "list",
+          "cachedResultName": "chhuzaifa9088@gmail.com"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "updateFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        192
+      ],
+      "id": "2e90e7cd-0de7-4c53-86e1-65e39abd4d81",
+      "name": "update_event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "X1AWXf0qCZS1Km19",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "chhuzaifa9088@gmail.com",
+          "mode": "list",
+          "cachedResultName": "chhuzaifa9088@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "useDefaultReminders": "={{ $fromAI('Use_Default_Reminders', ``, 'boolean') }}",
+        "additionalFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        656,
+        192
+      ],
+      "id": "d1887e9b-15f8-4ee7-a3a1-c9941ed46d4d",
+      "name": "create_event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "X1AWXf0qCZS1Km19",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "chhuzaifa9088@gmail.com",
+          "mode": "list",
+          "cachedResultName": "chhuzaifa9088@gmail.com"
+        },
+        "returnAll": "={{ $fromAI('Return_All', ``, 'boolean') }}",
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', ``, 'string') }}",
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        784,
+        192
+      ],
+      "id": "6f7640f6-08c4-497f-82ce-c56728ef90d6",
+      "name": "get_events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "X1AWXf0qCZS1Km19",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Calender Agent and API",
+        "height": 640,
+        "width": 1088,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "c7d04291-1b5f-474b-9702-54c7d9133a6d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "text"
+            },
+            {
+              "name": "sessionId"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -112
+      ],
+      "id": "ca6a5537-72ee-4555-913c-b072b65721e4",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        192,
+        208
+      ],
+      "id": "37aa9f8e-bb55-4c44-aac8-e4ec957a4950",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "chhuzaifa9088@gmail.com",
+          "mode": "list",
+          "cachedResultName": "chhuzaifa9088@gmail.com"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        384,
+        208
+      ],
+      "id": "cd20abca-28c7-42d9-a363-2ee03315ce0c",
+      "name": "delete event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "X1AWXf0qCZS1Km19",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3-32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        48,
+        208
+      ],
+      "id": "ff6222ea-0863-4c19-b9b1-814fe9fce61e",
+      "name": "qwen",
+      "credentials": {
+        "groqApi": {
+          "id": "TKrZbzJwH6TM3Jce",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gemma2-9b-it",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        208
+      ],
+      "id": "f5e91bcb-eb59-4337-91c1-cd3f9bd2bf16",
+      "name": "gemma",
+      "credentials": {
+        "groqApi": {
+          "id": "TKrZbzJwH6TM3Jce",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "update_event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_events": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "delete event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "qwen": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "gemma": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0ddba96b-3d7e-4357-96ac-0d02a060ec6f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6a77bfbeab3eb8d7b228310471632524b4990adf8ddfecf881e8112e3951c7d5"
+  },
+  "id": "mJUlVyhBaOwQm6CC",
+  "tags": [
+    {
+      "createdAt": "2025-08-25T08:40:20.951Z",
+      "updatedAt": "2025-08-25T08:40:20.951Z",
+      "id": "O1t2Cir7pgjWdu3H",
+      "name": "event"
+    },
+    {
+      "createdAt": "2025-08-25T08:40:18.796Z",
+      "updatedAt": "2025-08-25T08:40:18.796Z",
+      "id": "VIufS2UBIH089FjG",
+      "name": "calender"
+    }
+  ]
+}

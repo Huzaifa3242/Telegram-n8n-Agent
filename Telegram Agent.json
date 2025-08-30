@@ -1,0 +1,776 @@
+{
+  "name": "Telegram Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -672,
+        -160
+      ],
+      "id": "9bc8fd2c-67c5-4100-8c00-96ee464b5e7d",
+      "name": "Telegram Trigger",
+      "webhookId": "b109517f-8398-48bd-a888-3ba01aa4f971",
+      "credentials": {
+        "telegramApi": {
+          "id": "SDtI237LY8RThhJS",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        464
+      ],
+      "id": "84146729-ceba-46a4-ba83-20574124a750",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        896,
+        96
+      ],
+      "id": "777d0662-8654-4a8c-9fa9-01fcdec943ff",
+      "name": "Send a text message",
+      "webhookId": "f0eb83a3-64f0-47a3-9b4a-b4d228334784",
+      "credentials": {
+        "telegramApi": {
+          "id": "SDtI237LY8RThhJS",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        272,
+        464
+      ],
+      "id": "849b39cf-652b-4811-9283-deb9cd2b555d",
+      "name": "Gpt oss",
+      "credentials": {
+        "groqApi": {
+          "id": "TKrZbzJwH6TM3Jce",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3-32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        400,
+        464
+      ],
+      "id": "5a6ac13b-e2cb-40f8-95ae-58e60eed3a33",
+      "name": "Gemma",
+      "credentials": {
+        "groqApi": {
+          "id": "TKrZbzJwH6TM3Jce",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Telegram Assistant",
+        "height": 976,
+        "width": 2208,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1040,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "2869695c-4e1c-4df1-ac13-37c85f121348",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "description": "Call this  tool to  create , update , delete and get many tasks from the google tasks",
+        "workflowId": {
+          "__rl": true,
+          "value": "5HBMJtS7j5IGh1IK",
+          "mode": "list",
+          "cachedResultName": "Google Tasks Agent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sessionId": "{{ $('Telegram Trigger').item.json.message.chat.id }}",
+            "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('text', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sessionId",
+              "displayName": "sessionId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        736,
+        464
+      ],
+      "id": "de9744b7-6b9e-4d6b-88cb-4a79040e3ff6",
+      "name": "Google task workflow Tool"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool for creating events , updating events and getting info about events in calendar\nThe input you have to provide is text for it",
+        "workflowId": {
+          "__rl": true,
+          "value": "mJUlVyhBaOwQm6CC",
+          "mode": "list",
+          "cachedResultName": "My Calender agent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sessionId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+            "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('text', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "sessionId",
+              "displayName": "sessionId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        464
+      ],
+      "id": "6eda8ad8-aa29-4c63-8ac0-2fdaa441a6a2",
+      "name": "Calender workflow tool"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -752,
+        224
+      ],
+      "id": "0909d360-d7f4-4971-96ee-0c57f91f221a",
+      "name": "Get a file",
+      "webhookId": "e2de7c4d-f734-41df-b970-9380b4a7334c",
+      "credentials": {
+        "telegramApi": {
+          "id": "SDtI237LY8RThhJS",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6d89ef3b-1e93-4dc9-bcf6-6d76bce6d506",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -304,
+        448
+      ],
+      "id": "f4b6a33b-f559-427c-aa3d-8c0428e61f1e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "318a4992-f892-4454-8acf-e22e4982cc55",
+              "name": "chatInput",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "241f304b-c283-4cef-9c16-73e998e0187d",
+              "name": "sessionId",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        -16
+      ],
+      "id": "7801412d-a047-4f9b-8bc6-a3cfa0deab3b",
+      "name": "text_edit"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8bf22d38-1a3d-490a-aed1-a04f50328f1a",
+              "name": "chatInput",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "6bde28c8-8006-49e2-a7ac-5b76b8bff202",
+              "name": "sessionId",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        272
+      ],
+      "id": "853e7794-0909-4a10-bbc9-a42ca00c2bfa",
+      "name": "voice_edit"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "notExists",
+                      "singleValue": true
+                    },
+                    "id": "aedc7360-bd40-4c58-8db9-1503d23d4c8a"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ce2592a7-8e7b-4d7b-ab12-6a36e89bdb57",
+                    "leftValue": "={{ $json.message.voice.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -240,
+        -16
+      ],
+      "id": "52b9698e-6b8a-49f8-93e9-47cf2b7880dc",
+      "name": "check voice or text"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.assemblyai.com/v2/upload",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "c1a5871d0a854d08ae99ba4e2ec57fb9"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/octet-stream"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -560,
+        224
+      ],
+      "id": "54fbcd47-5ca2-4ada-bcab-6d7107b700a6",
+      "name": "upload file"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.assemblyai.com/v2/transcript",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "c1a5871d0a854d08ae99ba4e2ec57fb9"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "audio_url",
+              "value": "={{ $json.upload_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -336,
+        224
+      ],
+      "id": "90adf78f-320a-420b-953e-e64523573c71",
+      "name": "transcribe request"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.assemblyai.com/v2/transcript/{{ $json.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "c1a5871d0a854d08ae99ba4e2ec57fb9"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -544,
+        448
+      ],
+      "id": "2b18908b-f6d3-498b-b71a-6f8827cbac0c",
+      "name": "text request"
+    },
+    {
+      "parameters": {
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=You are a helpful asistant. You just reply to the mesasge from user and resolve the user queries. Maintain good enviornment and also should not be given the irrelevant info.\n\nThe current date and time is {{ $now }}\n\nYou can trigget this worflow for creating,upadting and getting the events by this tool \"Calender Event Agent\".\nExecute it along with the things this tool need.\n\nThe \"gmail workflow tool\" you can use for getting unread emails either generally or either by the sender email.\n\nYou should always keep the enviorment friendly.."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        464,
+        96
+      ],
+      "id": "171c8de2-a7d5-428b-b6b0-425a305070f1",
+      "name": "Telegram Agent"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -752,
+        448
+      ],
+      "id": "68b49ba9-a229-4901-95a2-28ffafc9f35f",
+      "name": "Wait 5s",
+      "webhookId": "de4f34a4-7eda-4717-98e1-4319baba2fa5"
+    },
+    {
+      "parameters": {
+        "content": "# Handling Voice ",
+        "height": 608,
+        "width": 832
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -896,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "6cb673d0-8a59-463d-80c5-b1b34b1a358a",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 133652239,
+          "message": {
+            "message_id": 282,
+            "from": {
+              "id": 7197172963,
+              "is_bot": false,
+              "first_name": "Noone",
+              "username": "Just_random_guy54",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": 7197172963,
+              "first_name": "Noone",
+              "username": "Just_random_guy54",
+              "type": "private"
+            },
+            "date": 1756398334,
+            "voice": {
+              "duration": 1,
+              "mime_type": "audio/ogg",
+              "file_id": "AwACAgQAAxkBAAIBGmiwgv7jYYSWbfliLNOXKjKgyksCAAIKHQACbEyAUT_NeZhRFQSxNgQ",
+              "file_unique_id": "AgADCh0AAmxMgFE",
+              "file_size": 24418
+            }
+          }
+        }
+      }
+    ],
+    "upload file": [
+      {
+        "json": {
+          "upload_url": "https://cdn.assemblyai.com/upload/d9763e85-c831-4a0a-8652-25baafdb6695"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "check voice or text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Telegram Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gpt oss": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Telegram Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemma": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Telegram Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Google task workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Telegram Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calender workflow tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Telegram Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "voice_edit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait 5s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "text_edit": {
+      "main": [
+        [
+          {
+            "node": "Telegram Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "voice_edit": {
+      "main": [
+        [
+          {
+            "node": "Telegram Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check voice or text": {
+      "main": [
+        [
+          {
+            "node": "text_edit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upload file": {
+      "main": [
+        [
+          {
+            "node": "transcribe request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "transcribe request": {
+      "main": [
+        [
+          {
+            "node": "Wait 5s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "text request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5s": {
+      "main": [
+        [
+          {
+            "node": "text request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9a6645c9-b6e8-4e21-ac00-6125162fe56e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6a77bfbeab3eb8d7b228310471632524b4990adf8ddfecf881e8112e3951c7d5"
+  },
+  "id": "2jbaHi4wvDv35iWk",
+  "tags": [
+    {
+      "createdAt": "2025-08-24T15:12:23.282Z",
+      "updatedAt": "2025-08-24T15:12:23.282Z",
+      "id": "5fQ08UuaBoe49Tp3",
+      "name": "telegram"
+    }
+  ]
+}

@@ -1,0 +1,355 @@
+{
+  "name": "Google Tasks Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "text"
+            },
+            {
+              "name": "sessionId"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -192,
+        -64
+      ],
+      "id": "732431ab-2317-45e7-8a58-c267ecfe149c",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 7
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        240
+      ],
+      "id": "11669571-6c57-438b-bf99-ea2a77765b5c",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "task": "MTM0MTg3OTU1NTY4MzY3ODA4NTg6MDow",
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}",
+        "additionalFields": {
+          "notes": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Notes', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        352,
+        240
+      ],
+      "id": "cb66d9d7-824f-4e3f-b55e-fc0a8313f52d",
+      "name": "Create _task",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "3KCrNBDJ417BZNGO",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "task": "MTM0MTg3OTU1NTY4MzY3ODA4NTg6MDow",
+        "taskId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Task_ID', ``, 'string') }}",
+        "updateFields": {
+          "notes": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Notes', ``, 'string') }}",
+          "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        480,
+        224
+      ],
+      "id": "f4438dc8-d5c4-4c6a-aa39-1f2b91a1ba73",
+      "name": "Update_task",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "3KCrNBDJ417BZNGO",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "task": "MTM0MTg3OTU1NTY4MzY3ODA4NTg6MDow",
+        "taskId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Task_ID', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        608,
+        224
+      ],
+      "id": "f9820a53-215a-4365-82ae-033244169838",
+      "name": "Delete_task",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "3KCrNBDJ417BZNGO",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "task": "MTM0MTg3OTU1NTY4MzY3ODA4NTg6MDow",
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "additionalFields": {
+          "showCompleted": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Show_Completed', ``, 'boolean') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        736,
+        224
+      ],
+      "id": "33275cd1-4ee6-4893-878a-64b0512a4ad5",
+      "name": "Get_many_tasks",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "3KCrNBDJ417BZNGO",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "task": "MTM0MTg3OTU1NTY4MzY3ODA4NTg6MDow",
+        "taskId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Task_ID', ``, 'string') }}",
+        "updateFields": {
+          "status": "completed"
+        }
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        224,
+        240
+      ],
+      "id": "dcd967dc-3f86-4571-afe6-148b5efcf511",
+      "name": "mark_completed",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "3KCrNBDJ417BZNGO",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Google Task Agent",
+        "height": 592,
+        "width": 1152,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -288,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "9d1e6d5f-ade7-435d-b081-bcdcf9cd047d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=You are a helpful google tasks assistant who helps the user to create,delete , update and get many tasks.\nHere are the tools desc with their tasks:\n\n1- You use the \"Create_task\" tool to create any task based on user need\n2- You use the \"Updater_task\" tool to update any task based on user need\n3- You use the \"Delete_task\" tool to delete any task based on user need\n4- You use the \"Get_many_tasks\" tool to get  tasks based on user need\n5- You use the  \"mark_completed\" tool to mark complete task based on user need but for that first you will retrive that task from get many and then using its id you will make that task completed !\n\nMake sure always to keep the enviorment helpful and  assist the user with your best effort."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        -64
+      ],
+      "id": "93ec4c81-6448-4655-a986-e7763f7402e3",
+      "name": "Task Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        240
+      ],
+      "id": "970045d0-46c9-47dd-91f3-10da0363f31a",
+      "name": "gpt oss",
+      "credentials": {
+        "groqApi": {
+          "id": "TKrZbzJwH6TM3Jce",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        240
+      ],
+      "id": "83d56fbb-8697-4636-bf05-d8e12bd6a819",
+      "name": "llama3",
+      "credentials": {
+        "groqApi": {
+          "id": "TKrZbzJwH6TM3Jce",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create _task": {
+      "ai_tool": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update_task": {
+      "ai_tool": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete_task": {
+      "ai_tool": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_many_tasks": {
+      "ai_tool": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mark_completed": {
+      "ai_tool": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task Agent": {
+      "main": [
+        []
+      ]
+    },
+    "gpt oss": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "llama3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Task Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "07e4bd30-ba6a-498f-9143-675cbeb3a879",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6a77bfbeab3eb8d7b228310471632524b4990adf8ddfecf881e8112e3951c7d5"
+  },
+  "id": "5HBMJtS7j5IGh1IK",
+  "tags": [
+    {
+      "createdAt": "2025-08-26T16:06:54.111Z",
+      "updatedAt": "2025-08-26T16:06:54.111Z",
+      "id": "8ehhL7itGea6QVYG",
+      "name": "tasks"
+    }
+  ]
+}
